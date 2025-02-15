@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>Profile</title>
+  </head>
+  <body>
+    <div class="w-full min-h-screen bg-zinc-900 text-white p-10">
+      <div class="flex justify-between items-center">
+        <h1 class="mb-5 px-5 py-3 text-3xl text-center bg-blue-500 rounded">
+          Profile
+        </h1>
+        <a
+          href="/logout"
+          class="text-sm bg-red-500 text-center px-3 py-2 rounded"
+          >Logout</a
+        >
+      </div>
+      <div>
+        <h3 class="mb-5 px-5 py-3 rounded justify-start items-start flex gap-3">
+          <a href="profile/upload"><img src="/images/uploads/<%= user.image %>" class="inline-block w-10 h-10 rounded-md" ></a>
+          <span class="bg-zinc-800 text-blue-500 px-5 py-2 rounded">
+            @<%= user.username %>
+          </span>
+        </h3>
+      </div>
+      <h5 class="mb-2 text-3xl px-10">Create a Post</h5>
+      <form
+        class="flex flex-col justify-start items-start px-10"
+        action="/post"
+        method="post"
+      >
+        <textarea
+          name="content"
+          id=""
+          placeholder="What's in your's mind"
+          class="resize-none rounded bg-zinc-800 px-5 py-3 mb-2"
+        ></textarea>
+        <input
+          type="submit"
+          class="bg-blue-500 px-3 py-1 rounded text-sm"
+          value="Create Post"
+        />
+      </form>
+
+      <div
+        class="container m-1 w-full rounded p-10 flex items-center justify-start"
+      >
+        <% user.posts.reverse().forEach(function(post){%>
+        <div
+          class="card tight w-50 bg-zinc-800 rounded p-2 tight w-100 block m-2"
+        >
+          <h6 class="text-blue-500 text-sm">@<%= user.username %></h6>
+          <p class="px-2 py-1 text-zinc-500 text-1xl"><%= post.content %></p>
+          <small class="text-sm mb-1 text-zinc-500 px-2"
+            ><%= post.likes.length %> likes</small
+          >
+          <div class="flex justify-between items-center px-2 py-1">
+            <a
+              href="/like/<%=post._id%>"
+              class="text-sm text-blue-500 text-center"
+              ><%= post.likes.indexOf(user._id) === -1 ? "Like" : "Unlike" %>
+            </a>
+            <a href="/update/<%=post._id%>" class="text-sm text-zinc-500">Edit</a>
+          </div>
+        </div>
+        <%})%>
+      </div>
+    </div>
+  </body>
+</html>
